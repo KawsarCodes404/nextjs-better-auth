@@ -1,14 +1,21 @@
 'use client'
 import { useState } from "react";
-import { Link, Button } from "@heroui/react";
+import { Link, Button, Spinner } from "@heroui/react";
 import { signOut, useSession } from "@/lib/auth-client";
 
 export default function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const { data: session } = useSession();
+    const { data: session, isPending } = useSession();
 
     console.log('user session in navbar', session);
+
+    if (isPending) {
+        return <div className="flex flex-col items-center gap-2">
+            <Spinner size="xl" />
+            <span className="text-xs text-muted">Loading...</span>
+        </div>
+    }
 
     const links = <>
         <li>

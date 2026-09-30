@@ -1,15 +1,19 @@
 'use client'
+import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { signIn } from "@/lib/auth-client";
-import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { Button, Description, FieldError, Form, Input, InputGroup, Label, TextField } from "@heroui/react";
+import { useState } from "react";
 
 const SignInPage = () => {
 
-    const onSubmit = async(e) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
 
-        const {data: resData, error} = await signIn.email({
+        const { data: resData, error } = await signIn.email({
             email: data.email,
             password: data.password,
             rememberMe: true,
@@ -39,11 +43,10 @@ const SignInPage = () => {
                     <Input placeholder="john@example.com" />
                     <FieldError />
                 </TextField>
+
                 <TextField
-                    isRequired
-                    minLength={8}
+                    className="w-full max-w-[280px]"
                     name="password"
-                    type="password"
                     validate={(value) => {
                         if (value.length < 8) {
                             return "Password must be at least 8 characters";
@@ -57,11 +60,35 @@ const SignInPage = () => {
                         return null;
                     }}
                 >
+
                     <Label>Password</Label>
-                    <Input placeholder="Enter your password" />
+
+                    {/* <Input placeholder="Enter your password" /> */}
+
                     <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
+
                     <FieldError />
+
+                    <InputGroup>
+                        <InputGroup.Input
+                            className="w-full max-w-[280px]"
+                            type={isVisible ? "text" : "password"}
+                        />
+                        <InputGroup.Suffix className="pe-0">
+                            <Button
+                                isIconOnly
+                                aria-label={isVisible ? "Hide password" : "Show password"}
+                                size="sm"
+                                variant="ghost"
+                                onPress={() => setIsVisible(!isVisible)}
+                            >
+                                {isVisible ? <Eye className="size-4" /> : <EyeSlash className="size-4" />}
+                            </Button>
+                        </InputGroup.Suffix>
+                    </InputGroup>
                 </TextField>
+
+
                 <div className="flex gap-2">
                     <Button type="submit">
                         {/* <Check /> */}
