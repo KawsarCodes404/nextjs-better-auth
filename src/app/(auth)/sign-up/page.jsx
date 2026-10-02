@@ -1,16 +1,16 @@
 'use client'
-import { signUp } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 
 const SignUpPage = () => {
-    const onSubmit = async(e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
         // Convert FormData to plain object
         console.log("data from the form", data);
 
-        const {data: restData, error} = await signUp.email({
+        const { data: restData, error } = await signUp.email({
             name: data.name,
             email: data.email,
             password: data.password
@@ -18,6 +18,14 @@ const SignUpPage = () => {
 
         console.log(data, error);
     };
+
+    const handleGoogleSignIn = async () => {
+        const resData = await signIn.social({
+            provider: 'google'
+        })
+
+        console.log('after google sign in', resData);
+    }
 
     return (
         <div>
@@ -88,6 +96,14 @@ const SignUpPage = () => {
                     </Button>
                 </div>
             </Form>
+
+            <p>OR</p>
+
+            <Button
+                onClick={handleGoogleSignIn}
+            >
+                Sign In with Google
+            </Button>
         </div>
     );
 };

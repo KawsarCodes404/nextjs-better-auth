@@ -23,6 +23,14 @@ const SignInPage = () => {
         console.log(resData, error);
     };
 
+    const handleGoogleSignIn = async() => {
+        const resData = await signIn.social({
+            provider: 'google'
+        })
+
+        console.log('after google sign in', resData);
+    }
+
     return (
         <div>
             <h2>Please sign in</h2>
@@ -99,6 +107,14 @@ const SignInPage = () => {
                     </Button>
                 </div>
             </Form>
+
+            <p>OR</p>
+
+            <Button 
+                onClick={handleGoogleSignIn}
+            >
+                Sign In with Google
+            </Button>
         </div>
     );
 };
