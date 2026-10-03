@@ -16,7 +16,7 @@ const SignUpPage = () => {
             password: data.password
         })
 
-        console.log(data, error);
+        console.log('after google sign up', data, error);
     };
 
     const handleGoogleSignIn = async () => {
@@ -24,7 +24,7 @@ const SignUpPage = () => {
             provider: 'google'
         })
 
-        console.log('after google sign in', resData);
+        console.log('after google sign up withh google', resData);
     }
 
     return (
